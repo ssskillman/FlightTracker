@@ -10,13 +10,21 @@ from setup import colours, fonts, frames
 from config import WEATHER_LOCATION
 import sys
 
-# Attempt to load config data
-try:
-    from config import OPENWEATHER_API_KEY
+from dotenv import load_dotenv
+import os
 
-except (ModuleNotFoundError, NameError, ImportError):
-    # If there's no config data
-    OPENWEATHER_API_KEY = None
+load_dotenv()
+
+# API key: prefer .env, fallback to secrets.py, else None
+OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY")
+
+if not OPENWEATHER_API_KEY:
+    try:
+        from secrets import OPENWEATHER_API_KEY as _KEY
+        OPENWEATHER_API_KEY = _KEY
+    except Exception:
+        OPENWEATHER_API_KEY = None
+
 
 try:
     from config import TEMPERATURE_UNITS
