@@ -145,3 +145,8 @@ cython_debug/
 .env
 secrets.py
 run.sh
+
+# Local helper scripts / dev artifacts
+combined_dump.txt
+concat_files.py
+run_flighttracker.sh
