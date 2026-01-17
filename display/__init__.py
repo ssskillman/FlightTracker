@@ -80,7 +80,7 @@ class Display(
         options.show_refresh_rate = 0
         options.gpio_slowdown = GPIO_SLOWDOWN
         options.disable_hardware_pulsing = True
-        options.drop_privileges = True
+        options.drop_privileges = False
         self.matrix = RGBMatrix(options=options)
 
         # Setup canvas
