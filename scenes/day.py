@@ -8,7 +8,10 @@ from rgbmatrix import graphics
 # Setup
 DAY_COLOUR = colours.PINK_DARK
 DAY_FONT = fonts.small
-DAY_POSITION = (2, 23)
+
+# Put day-of-week next to the date (same baseline as DATE_POSITION y=16)
+# You can nudge the X left/right if you want it tighter/looser.
+DAY_POSITION = (44, 16)
 
 
 class DayScene(object):
@@ -21,33 +24,36 @@ class DayScene(object):
         if len(self._data):
             # Ensure redraw when there's new data
             self._last_day = None
+            return
 
-        else:
-            # If there's no data to display
-            # then draw the day
-            now = datetime.now()
-            current_day = now.strftime("%A")
+        # If there's no data to display then draw the day
+        now = datetime.now()
 
-            # Only draw if time needs updated
-            if self._last_day != current_day:
-                # Undraw last day if different from current
-                if not self._last_day is None:
-                    _ = graphics.DrawText(
-                        self.canvas,
-                        DAY_FONT,
-                        DAY_POSITION[0],
-                        DAY_POSITION[1],
-                        colours.BLACK,
-                        self._last_day,
-                    )
-                self._last_day = current_day
+        # Mon, Tues, Wed, Thurs, Fri, Sat, Sun
+        day_map = ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"]
+        current_day = day_map[now.weekday()]
 
-                # Draw day
+        # Only draw if day needs updated
+        if self._last_day != current_day:
+            # Undraw last day if different from current
+            if self._last_day is not None:
                 _ = graphics.DrawText(
                     self.canvas,
                     DAY_FONT,
                     DAY_POSITION[0],
                     DAY_POSITION[1],
-                    DAY_COLOUR,
-                    current_day,
+                    colours.BLACK,
+                    self._last_day,
                 )
+
+            self._last_day = current_day
+
+            # Draw day
+            _ = graphics.DrawText(
+                self.canvas,
+                DAY_FONT,
+                DAY_POSITION[0],
+                DAY_POSITION[1],
+                DAY_COLOUR,
+                current_day,
+            )

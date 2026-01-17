@@ -17,6 +17,7 @@ from scenes.date import DateScene
 from rgbmatrix import graphics
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
+from scenes.banner import BannerScene
 
 def callsigns_match(flights_a, flights_b):
     get_callsigns = lambda flights: [f["callsign"] for f in flights]
@@ -51,6 +52,7 @@ except (ModuleNotFoundError, NameError, ImportError):
 
 class Display(
     WeatherScene,
+    BannerScene,
     FlightDetailsScene,
     JourneyScene,
     LoadingLEDScene if LOADING_LED_ENABLED else LoadingPulseScene ,
@@ -88,6 +90,7 @@ class Display(
         # Data to render
         self._data_index = 0
         self._data = []
+        self._pending_data = None
 
         # Start Looking for planes
         self.overhead = Overhead()
@@ -137,6 +140,7 @@ class Display(
 
             if reset_required:
                 self.reset_scene()
+
 
     @Animator.KeyFrame.add(1)
     def sync(self, count):
