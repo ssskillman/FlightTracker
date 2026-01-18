@@ -150,3 +150,6 @@ run.sh
 combined_dump.txt
 concat_files.py
 run_flighttracker.sh
+
+# FlightTracker runtime logs
+logs/
